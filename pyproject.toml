@@ -1,0 +1,19 @@
+[project]
+name = "langgraph-project-based-learning"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "chromadb>=1.4.0",
+    "ddgs>=9.10.0",
+    "langchain>=1.2.0",
+    "langchain-community>=0.4.1",
+    "langchain-core>=1.2.5",
+    "langchain-google-genai>=4.1.2",
+    "langchain-openai>=1.1.6",
+    "langgraph>=1.0.5",
+    "langgraph-checkpoint-sqlite>=3.0.1",
+    "python-dotenv>=1.2.1",
+    "streamlit>=1.52.2",
+]
