@@ -437,6 +437,7 @@ with st.sidebar:
         • Source attribution  
         • Handles GB's of data
         • SQLite memory
+        
         """
     )
 
