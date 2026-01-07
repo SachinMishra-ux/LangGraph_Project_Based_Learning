@@ -367,7 +367,7 @@
 import uuid
 import streamlit as st
 from langchain_core.messages import HumanMessage, AIMessage
-from workflow import build_graph
+from new_workflow import build_graph
 
 # ------------------------------------------------
 # STEP LABELS (NODE → UI TEXT)

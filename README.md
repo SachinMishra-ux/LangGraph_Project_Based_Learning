@@ -154,7 +154,26 @@ User → Query Rewrite → Retriever → LLM → Memory
 
 ---
 
-## Module 6 – End-to-End Assistants
+---
+
+## Module 6 – Short Term Meory
+
+### 1️⃣4️⃣ `11_short_term_memory.ipynb`
+- Trimming
+- Deletion
+- Summarization
+
+![simple_llm_workflow](./Assets/11_short_term_memory.png)
+
+
+### 1️⃣5️⃣ `10_advance_rag_summary_coversation.ipynb`
+- Advance RAG with Summarization node
+
+![simple_llm_workflow](./Assets/10_advance_rag_summary_coversation.png)
+
+---
+
+## Module 7 – End-to-End Assistants
 
 ### 1️⃣2️⃣ `12_travel_assistant.ipynb`
 - Travel planning assistant

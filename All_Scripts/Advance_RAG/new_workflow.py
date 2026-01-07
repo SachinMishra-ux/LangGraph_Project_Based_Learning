@@ -119,6 +119,7 @@ off_topic_rag_chain = off_topic_prompt | llm
 
 class AgentState(TypedDict):
     messages: List[BaseMessage]
+    summary: str     # ✅ ADDED
     documents: List[Document]
     rephrased_question: str
     on_topic: str
@@ -355,7 +356,16 @@ def generate_answer(state: AgentState):
     if "messages" not in state or state["messages"] is None:
         raise ValueError("State must include 'messages' before generating an answer.")
 
-    history = state["messages"]
+    # history = state["messages"]
+    history = []
+
+    if state.get("summary"):
+        history.append(
+            SystemMessage(content=f"Conversation summary:\n{state['summary']}")
+        )
+
+    history.extend(state["messages"])
+
     documents = state["documents"]
     rephrased_question = state["rephrased_question"]
 
@@ -449,6 +459,39 @@ def off_topic_response(state: AgentState):
     }
 
 
+def summarize_conversation(state: AgentState):
+    print("Entering summarize_conversation")
+    state["current_step"] = "Summarizing conversation..."
+
+    existing_summary = state.get("summary", "")
+
+    if existing_summary:
+        prompt = (
+            f"Existing summary:\n{existing_summary}\n\n"
+            "Update and extend this summary using the conversation above."
+        )
+    else:
+        prompt = "Summarize the conversation above concisely."
+
+    llm = get_groq_llm()
+    response = llm.invoke(
+        state["messages"] + [HumanMessage(content=prompt)]
+    )
+
+    # 🔥 KEEP only last 2 messages
+    trimmed_messages = state["messages"][-2:]
+
+    state["summary"] = response.content.strip()
+    state["messages"] = trimmed_messages
+
+    return state
+
+## helper - When to summarize
+
+def should_summarize(state: AgentState):
+    return len(state["messages"]) > 8
+
+
 
 # =========================================================
 # GRAPH
@@ -467,6 +510,7 @@ def build_graph():
     g.add_node("retrieval_grader", retrieval_grader)
     g.add_node("generate_answer", generate_answer)
     g.add_node("refine_question", refine_question)
+    g.add_node("summarize_conversation", summarize_conversation)
     g.add_node("search_internet", search_internet)    
 
     g.add_edge("question_rewriter", "question_classifier")
@@ -490,9 +534,20 @@ def build_graph():
         },
     )
 
+    # 🔥 CONDITIONAL SUMMARY
+    g.add_conditional_edges(
+        "generate_answer",
+        should_summarize,
+        {
+            True: "summarize_conversation",
+            False: END,
+        }
+    )
+
     g.add_edge("refine_question", "retrieve")
+    g.add_edge("search_internet", "summarize_conversation")
+    g.add_edge("summarize_conversation", END)
     #g.add_edge("generate_answer", END)
-    g.add_edge("search_internet", END)
     g.add_edge("off_topic_response", END)
     g.set_entry_point("question_rewriter")
     graph = g.compile(checkpointer=checkpointer)
