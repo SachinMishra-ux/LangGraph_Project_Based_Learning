@@ -26,7 +26,8 @@ Instead of toy demos, this repo focuses on **real, production-style agent system
    - [Module 3 – RAG with LangGraph](#module-3--rag-with-langgraph)
    - [Module 4 – Tools, HITL & Map-Reduce](#module-4--tools-hitl--map-reduce)
    - [Module 5 – Multi-Agent Systems](#module-5--multi-agent-systems)
-   - [Module 6 – End-to-End Assistants](#module-6--end-to-end-assistants)
+   - [Module 6 – Short-Term-Memory](#module-6--short-term-memory)
+   - [Module 7 – End-to-End Assistants](#module-6--end-to-end-assistants)
 4. [All_Scripts – Production Code](#all_scripts-production-code)
 5. [Setup & Run](#setup--run)
 6. [What You’ll Master](#what-youll-master)
@@ -156,7 +157,7 @@ User → Query Rewrite → Retriever → LLM → Memory
 
 ---
 
-## Module 6 – Short Term Meory
+## Module 6 – Short-Term-Memory
 
 ### 1️⃣4️⃣ `11_short_term_memory.ipynb`
 - Trimming
