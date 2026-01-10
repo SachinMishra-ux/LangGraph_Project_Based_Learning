@@ -53,3 +53,9 @@ LangGraph App (with Sqlite memory)
    ├── Vision Agent (image)
    └── Supervisor (routing)
 ```
+
+## ngrok command:
+
+```
+ngrok http 8000
+```
