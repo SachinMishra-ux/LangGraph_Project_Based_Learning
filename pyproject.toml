@@ -29,6 +29,7 @@ dependencies = [
     "pypdf>=6.5.0",
     "python-dotenv>=1.2.1",
     "python-multipart>=0.0.21",
+    "reportlab>=4.4.7",
     "streamlit>=1.52.2",
     "twilio>=9.9.1",
 ]
