@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LangGraph: The Future of Agentic AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050507;
+            --accent-color: #00f2ff;
+            --secondary-accent: #7000ff;
+            --text-color: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            --langgraph-color: #38bdf8;
+            --autogen-color: #fb923c;
+            --crewai-color: #f87171;
+            --haystack-color: #4ade80;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        /* --- Sections --- */
+        .section {
+            padding: 80px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* --- Hero --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(circle at center, rgba(112, 0, 255, 0.1) 0%, transparent 70%);
+        }
+
+        .hero-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+            z-index: -1;
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-color) 30%, var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: #aaa;
+            max-width: 800px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            animation: pulse 2s infinite;
+            color: var(--accent-color);
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        /* --- Comparison Matrix --- */
+        .comparison-table-wrapper {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            margin-top: 40px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 20px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        th {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .framework-name {
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .lg-cell { color: var(--langgraph-color); background: rgba(56, 189, 248, 0.05); }
+        .ag-cell { color: var(--autogen-color); }
+        .cr-cell { color: var(--crewai-color); }
+        .hs-cell { color: var(--haystack-color); }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .badge-pro { background: rgba(56, 189, 248, 0.2); border: 1px solid var(--langgraph-color); }
+
+        /* --- Core Advantages --- */
+        .advantage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 24px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+
+        .card p {
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--secondary-accent), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+        }
+
+        /* --- Why LangGraph Banner --- */
+        .why-langgraph {
+            background: linear-gradient(90deg, #111, #1a1a1c);
+            border-left: 5px solid var(--accent-color);
+            padding: 60px;
+            border-radius: 0 30px 30px 0;
+            margin: 80px 0;
+        }
+
+        .why-langgraph h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .why-langgraph highlight {
+            color: var(--accent-color);
+        }
+
+        /* --- CTA --- */
+        .footer {
+            text-align: center;
+            padding: 100px 5%;
+            background: #000;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 45px;
+            background: linear-gradient(135deg, var(--accent-color), var(--secondary-accent));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 242, 255, 0.2);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 50px rgba(0, 242, 255, 0.4);
+        }
+
+        /* Decorative Elements */
+        .glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%);
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="glow" style="top: 20%; left: 10%;"></div>
+    <div class="glow" style="bottom: 10%; right: 5%; background: var(--secondary-accent);"></div>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <img src="file:///Users/sachinmishra/.gemini/antigravity/brain/bb168267-4ccd-4e8a-88d3-7c5c2130de40/agent_orchestration_hero_1776332539459.png" alt="Futuristic AI background" class="hero-img">
+        <h1 class="fade-in">Stateful. Cyclic. Human.</h1>
+        <p class="fade-in">Why LangGraph is the definitive orchestrator for production-grade Agentic AI.</p>
+        <div class="scroll-indicator">↓</div>
+    </header>
+
+    <!-- Comparison Table Section -->
+    <section class="section">
+        <h2 style="font-size: 2.5rem; margin-bottom: 20px;">The Landscape of Agents</h2>
+        <p style="color: #888; margin-bottom: 40px;">How LangGraph stacks up against the competition in 2025.</p>
+
+        <div class="comparison-table-wrapper fade-in">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th class="lg-cell">LangGraph</th>
+                        <th class="ag-cell">AutoGen</th>
+                        <th class="cr-cell">CrewAI</th>
+                        <th class="hs-cell">Haystack</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Core Paradigm</strong></td>
+                        <td class="lg-cell">Stateful Graph (Nodes/Edges)</td>
+                        <td>Conversational (Chat-based)</td>
+                        <td>Role-based (Organizational)</td>
+                        <td>Pipeline (Sequential/DAG)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cycles & Loops</strong></td>
+                        <td class="lg-cell">First-class (Native Loops)</td>
+                        <td>Dynamic (Hard to control)</td>
+                        <td>Limited (Sequential focus)</td>
+                        <td>Strict DAG (No loops)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Human-in-the-Loop</strong></td>
+                        <td class="lg-cell">Built-in Breakpoints & State Editing</td>
+                        <td>Requires custom logic</td>
+                        <td>Basic Approval</td>
+                        <td>External trigger required</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Persistence</strong></td>
+                        <td class="lg-cell">Full Checkpointing (Wait/Resume)</td>
+                        <td>Memory buffers</td>
+                        <td>Context caching</td>
+                        <td>External storage</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Granular Control</strong></td>
+                        <td class="lg-cell">Absolute (Code-level logic)</td>
+                        <td>Medium (Prompt-driven)</td>
+                        <td>Low (Abstract processes)</td>
+                        <td>High (Fixed pipelines)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Production Ready</strong></td>
+                        <td class="lg-cell">High (Deterministic) <span class="badge badge-pro">Enterprise</span></td>
+                        <td>Medium (Potential loops)</td>
+                        <td>Medium (High abstraction)</td>
+                        <td>High (Search & RAG)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Deep Dive Cards -->
+    <section class="section">
+        <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 60px;">The LangGraph Edge</h2>
+        
+        <div class="advantage-grid">
+            <div class="card">
+                <div class="icon-circle">🔄</div>
+                <h3>Cyclic Reasoning</h3>
+                <p>Unlike standard pipelines, LangGraph allows agents to loop back, reflect on errors, and retry tasks until they are perfect. This is the heart of true intelligence.</p>
+            </div>
+            
+            <div class="card">
+                <div class="icon-circle">🧠</div>
+                <h3>Unified State Nodes</h3>
+                <p>Maintain a single source of truth across multiple agents. Each node updates the shared state, providing a transparent audit trail of every decision.</p>
+            </div>
+            
+            <div class="card">
+                <div class="icon-circle">👤</div>
+                <h3>Human-in-the-Loop</h3>
+                <p>Pause execution, inspect the agent's thought process, edit the state, and resume. LangGraph makes human oversight a native feature, not an afterthought.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Banner -->
+    <section class="section">
+        <div class="why-langgraph fade-in">
+            <h2>Why <highlight>LangGraph</highlight> wins in Production</h2>
+            <p style="font-size: 1.2rem; max-width: 900px; color: #ccc;">
+                In the real world, AI agents are non-linear. They need to fail, learn, and try again. 
+                LangGraph is the only framework that treats <strong>Cycles</strong> and <strong>State Persistence</strong> as first-class citizens, 
+                giving developers the low-level control needed to build systems that actually work at scale.
+            </p>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <footer class="footer">
+        <h2 style="font-size: 3rem; margin-bottom: 30px;">Ready to build stateful agents?</h2>
+        <a href="https://langchain-ai.github.io/langgraph/" class="btn">Get Started with LangGraph</a>
+        <p style="margin-top: 50px; color: #555; font-size: 0.9rem;">&copy; 2025 Agentic AI Comparison Masterclass</p>
+    </footer>
+
+    <script>
+        // Simple scroll animation trigger
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.card, .why-langgraph, .comparison-table-wrapper').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
